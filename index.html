@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cambiar Contraseña - Volco</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/supabase.min.js"></script>
   <style>
     body {
       background-color: #eb7a10;
@@ -59,6 +58,7 @@
     }
     button:hover {
       background-color: #A84300;
+      color: white;
     }
     .message {
       margin-top: 1rem;
@@ -76,37 +76,39 @@
     <div class="message" id="message"></div>
   </div>
 
-  <script>
-    const urlParams = new URLSearchParams(window.location.hash.slice(1));
-    const accessToken = urlParams.get('access_token');
-    const type = urlParams.get('type');
+  <!-- Cargar Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/supabase.min.js"></script>
 
+  <!-- Script personalizado -->
+  <script>
     const client = supabase.createClient(
       'https://asoihprqragjwstyqjru.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzb2locHJxcmFnandzdHlxanJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNjUwNTQsImV4cCI6MjA2Nzc0MTA1NH0.PJRWLX0pZR36WeFyReM-6yt-hOGCe1wJ5XgItQd6qn4'
     );
-    
+
+    const urlParams = new URLSearchParams(window.location.hash.slice(1));
+    const accessToken = urlParams.get('access_token');
+
     async function updatePassword() {
       const newPassword = document.getElementById('new-password').value;
       const message = document.getElementById('message');
-    
+
       if (!newPassword) {
         message.innerText = 'Por favor ingresa una nueva contraseña.';
         return;
       }
-    
+
       const { data, error } = await client.auth.updateUser(
         { password: newPassword },
         { accessToken }
       );
-    
+
       if (error) {
         message.innerText = 'Error: ' + error.message;
       } else {
         message.innerText = 'Contraseña actualizada exitosamente. Ya puedes cerrar esta página.';
       }
     }
-
   </script>
 </body>
 </html>

@@ -81,32 +81,32 @@
     const accessToken = urlParams.get('access_token');
     const type = urlParams.get('type');
 
-    const supabase = supabase.createClient(
+    const client = supabase.createClient(
       'https://asoihprqragjwstyqjru.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzb2locHJxcmFnandzdHlxanJ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIxNjUwNTQsImV4cCI6MjA2Nzc0MTA1NH0.PJRWLX0pZR36WeFyReM-6yt-hOGCe1wJ5XgItQd6qn4'
-
     );
-
+    
     async function updatePassword() {
       const newPassword = document.getElementById('new-password').value;
       const message = document.getElementById('message');
-
+    
       if (!newPassword) {
         message.innerText = 'Por favor ingresa una nueva contraseña.';
         return;
       }
-
-      const { data, error } = await supabase.auth.updateUser(
+    
+      const { data, error } = await client.auth.updateUser(
         { password: newPassword },
         { accessToken }
       );
-
+    
       if (error) {
         message.innerText = 'Error: ' + error.message;
       } else {
         message.innerText = 'Contraseña actualizada exitosamente. Ya puedes cerrar esta página.';
       }
     }
+
   </script>
 </body>
 </html>
